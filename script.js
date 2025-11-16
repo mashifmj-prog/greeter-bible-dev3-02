@@ -1376,6 +1376,25 @@ function initializeEventListeners() {
       });
     });
 
+    // ===== NEW: THEME TOGGLE BUTTON =====
+    const themeToggleBtn = document.createElement('button');
+    themeToggleBtn.className = 'control-btn theme-btn';
+    themeToggleBtn.id = 'themeToggle';
+    themeToggleBtn.innerHTML = currentTheme === 'dark' ? '🌙' : '☀️';
+    themeToggleBtn.title = currentTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    themeToggleBtn.addEventListener('click', toggleTheme);
+    
+    // Insert theme toggle after search button in controls container
+    const controlsContainer = document.querySelector('.controls-container');
+    const searchButton = document.getElementById('searchButton');
+    if (controlsContainer && searchButton) {
+      // Create a wrapper div to maintain proper spacing
+      const themeWrapper = document.createElement('div');
+      themeWrapper.className = 'theme-toggle-wrapper';
+      themeWrapper.appendChild(themeToggleBtn);
+      controlsContainer.appendChild(themeWrapper);
+    }
+
     // Add keyboard shortcuts
     document.addEventListener('keydown', (e) => {
       // Space bar for next verse
@@ -1387,6 +1406,11 @@ function initializeEventListeners() {
       if (e.code === 'Escape') {
         closeShareModal();
         closeSearchModal();
+      }
+      // T key for theme toggle
+      if (e.code === 'KeyT' && !e.target.matches('textarea, input')) {
+        e.preventDefault();
+        toggleTheme();
       }
     });
 
